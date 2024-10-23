@@ -13,7 +13,7 @@ def auto_click():
 	if money.get() >= clicker_cost.get():
 	  price = strength_cost.get()
 	  money.set(money.get() - price)
-	  new_price = round()
+	  new_price = round(25)
 	  print(new_price)
 
 # this is the function called when the button is clicked
