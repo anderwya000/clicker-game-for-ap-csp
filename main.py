@@ -1,75 +1,79 @@
-# imports
-from tkinter import *
-from tkinter import ttk
+#--------------- Imports ---------------
+from tkinter import * 
 from random import *
-from math import *
-# stuff
-# gui mostly generated using http://www.python-gui-builder.com/
 
 # this is the function called when the button is clicked
 strength = 1
-def click():
-  x =  money.get() + 1
+def Click():
+  print('clicked')
+  x =  money.get() + strength
   money.set(x)
 
+# this is the function called when the button is clicked
+def auto_click():
+	print('clicked')
 
 # this is the function called when the button is clicked
-def buy_clicker():
-	if money.get() >= clicker_cost.get():
-	  print('you can buy it')
-
+def Upgrade():
+	print('clicked')
 
 # this is the function called when the button is clicked
-def buy_strength():
-	if money.get() >= strength_cost.get():
-	  price = strength_cost.get()
-	  print(price)
-	 # new_price = round((0.4 * (10.0 ^ (1.4 * log(abs(price)))) - 15.0))
-	 # print(new_price)
-	  print(
-	    round((0.1 * ((10.0 ** (1.1 * log(abs(price)))) - 15.0)))
-	  )
+def Upgrade():
+	print('clicked')
 
 
 root = Tk()
-money = IntVar()
-money.set(0)
-clicker_cost = IntVar()
-clicker_cost.set(25)
-strength_cost = IntVar()
-strength_cost.set(10)
+
 # This is the section of code which creates the main window
-root.geometry('1280x720')
-root.configure(background='#F0F8FF')
-root.title('Clicker Game')
+root.geometry('870x560')
+root.configure(background='#F5F5DC')
+root.title('Windows 11')
+
+
+# First, we create a canvas to put the picture on
+Pringle= Canvas(root, height=256, width=256)
+# Then, we actually create the image file to use (it has to be a *.gif)
+picture_file = PhotoImage(file = '')  # <-- you will have to copy-paste the filepath here, for example 'C:\Desktop\pic.gif'
+# Finally, we create the image on the canvas and then place it onto the main window
+Pringle.create_image(256, 0, anchor=NE, image=picture_file)
+Pringle.place(x=35, y=38)
 
 
 # This is the section of code which creates a button
-Button(root, text='Box that should be clicked', bg='#F0F8FF', font=('arial', 12, 'normal'), command=click).place(x=278, y=193)
-
-
-# This is the section of code which creates the a label
-Label(root, textvariable=str(money), bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=378, y=93)
+Button(root, text='Click Here!', bg='#CDB79E', font=('helvetica', 24, 'bold'), command=Click).place(x=55, y=318)
 
 
 # This is the section of code which creates a button
-Button(root, text='buy a thing that clicks for you', bg='#F0F8FF', font=('arial', 12, 'normal'), command=buy_clicker).place(x=268, y=303)
+Button(root, text='Auto clicker', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=auto_click).place(x=485, y=68)
 
 
 # This is the section of code which creates a button
-Button(root, text='increase how much you get for a click', bg='#F0F8FF', font=('arial', 12, 'normal'), command=buy_strength).place(x=248, y=343)
+Button(root, text='Clicker Upgrade 1', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=Upgrade).place(x=485, y=158)
+
+
+# This is the section of code which creates a button
+Button(root, text='Clicker Upgrade 2', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=Upgrade).place(x=485, y=248)
 
 
 # This is the section of code which creates the a label
-Label(root, text='cost', bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=588, y=273)
+Label(root, text='Upgrades', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=515, y=-2)
 
 
 # This is the section of code which creates the a label
-Label(root, textvariable=str(clicker_cost), bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=588, y=313)
+Label(root, text='Cost', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=775, y=-2)
 
 
 # This is the section of code which creates the a label
-Label(root, textvariable=str(strength_cost), bg='#F0F8FF', font=('arial', 12, 'normal')).place(x=588, y=343)
+Label(root, text='10', bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=795, y=78)
+
+
+# This is the section of code which creates the a label
+Label(root, text='25', bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=795, y=178)
+
+
+# This is the section of code which creates the a label
+Label(root, text='100', bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=785, y=268)
 
 
 root.mainloop()
+
