@@ -4,26 +4,28 @@ from random import *
 from math import *
 
 # this is the function called when the button is clicked
-strength = 1
+
 def click():
-  money.set(money.get() + strength)
+  money.set(money.get() + strength.get())
 
 # this is the function called when the button is clicked
 def auto_click():
-	if money.get() >= clicker_cost.get():
-	  price = strength_cost.get()
-	  money.set(money.get() - price)
-	  new_price = round(25)
-	  print(new_price)
+    if money.get() >= clicker_cost.get():
+        price = clicker_cost.get()
+        money.set(money.get() - price)
+        new_price = round(25 * 1.5)
+        print(new_price)
+
+
 
 # this is the function called when the button is clicked
 def strength_upgrade():
-  if money.get() >= strength_cost.get():
-    price = strength_cost.get()
-    money.set(money.get() - price)
-    new_price = round()
-    print(new_price)
-		
+    if money.get() >= strength_cost.get():
+        price = strength_cost.get()
+        money.set(money.get() - price)
+        new_price = round(10 * 1.5)
+        print(new_price)
+        strength.set(strength.get() + 1)
 
 
 root = Tk()
@@ -33,6 +35,8 @@ clicker_cost = IntVar()
 clicker_cost.set(25)
 strength_cost = IntVar()
 strength_cost.set(10)
+strength = IntVar()
+strength.set(1)
 # This is the section of code which creates the main window
 root.geometry('760x460')
 root.configure(background='#F5F5DC')
