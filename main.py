@@ -6,9 +6,12 @@ def run_clicks():
     money.set(money.get() + (strength.get() * clickers.get()))
     root.after(1000, run_clicks)
 
-def calc_pringles():
-    pringles_count.set(f'{money.get()} pringles')
-    root.after(10, calc_pringles)
+def calc_numbers():
+    if money.get() > 100000:
+        pringles_count.set(f'{convert_to_e(money.get())} pringles')
+    else:
+        pringles_count.set(f'{money.get()} pringles')
+    root.after(10, calc_numbers)
 
 def click(event):
   money.set(money.get() + strength.get())
@@ -21,8 +24,6 @@ def auto_click_upgrade():
         clicker_cost.set(new_price)
         clickers.set(clickers.get() + 1)
 
-
-
 def strength_upgrade():
     if money.get() >= strength_cost.get():
         price = strength_cost.get()
@@ -31,12 +32,14 @@ def strength_upgrade():
         strength_cost.set(new_price)
         strength.set(strength.get() + 1)
 
+def convert_to_e(number):
+    return '{:.2e}'.format(number)
 
 root = Tk()
 money = IntVar()
 money.set(0)
 clicker_cost = IntVar()
-clicker_cost.set(25)
+clicker_cost.set(10)
 strength_cost = IntVar()
 strength_cost.set(10)
 strength = IntVar()
@@ -49,7 +52,7 @@ root.geometry('880x460')
 root.configure(background='#F5F5DC')
 root.title('Pringle')
 run_clicks()
-calc_pringles()
+calc_numbers()
 
 pringle = Canvas(root, height=256, width=256, bg='#F5F5DC', highlightthickness=0)
 picture_file = PhotoImage(file = 'pringle.gif')
