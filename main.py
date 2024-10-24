@@ -1,30 +1,34 @@
-#--------------- Imports ---------------
-from tkinter import * 
-from random import *
-from math import *
+# import
+from tkinter import *
 
 # this is the function called when the button is clicked
+def run_clicks():
+    money.set(money.get() + (strength.get() * clickers.get()))
+    root.after(1000, run_clicks)
 
-def click():
+def calc_pringles():
+    pringles_count.set(f'{money.get()} pringles')
+    root.after(10, calc_pringles)
+
+def click(event):
   money.set(money.get() + strength.get())
 
-# this is the function called when the button is clicked
-def auto_click():
+def auto_click_upgrade():
     if money.get() >= clicker_cost.get():
         price = clicker_cost.get()
         money.set(money.get() - price)
-        new_price = round(25 * 1.5)
-        print(new_price)
+        new_price = round(price * 1.6)
+        clicker_cost.set(new_price)
+        clickers.set(clickers.get() + 1)
 
 
 
-# this is the function called when the button is clicked
 def strength_upgrade():
     if money.get() >= strength_cost.get():
         price = strength_cost.get()
         money.set(money.get() - price)
-        new_price = round(10 * 1.5)
-        print(new_price)
+        new_price = round(price * 1.5)
+        strength_cost.set(new_price)
         strength.set(strength.get() + 1)
 
 
@@ -37,45 +41,66 @@ strength_cost = IntVar()
 strength_cost.set(10)
 strength = IntVar()
 strength.set(1)
+clickers = IntVar()
+clickers.set(0)
+pringles_count = StringVar()
 # This is the section of code which creates the main window
-root.geometry('760x460')
+root.geometry('880x460')
 root.configure(background='#F5F5DC')
 root.title('Pringle')
+run_clicks()
+calc_pringles()
 
-Pringle = Canvas(root, height=256, width=256)
+pringle = Canvas(root, height=256, width=256, bg='#F5F5DC', highlightthickness=0)
 picture_file = PhotoImage(file = 'pringle.gif')
-Pringle.create_image(128, 128, anchor=NE, image=picture_file)
-Pringle.place(x=50, y=75)
+picture_file = picture_file.zoom(3, 3)
+picture_file = picture_file.subsample(7, 7)
+pringle.create_image(128, 128, image = picture_file)
+pringle.place(x=50, y=75)
+pringle.bind("<Button-1>", click)
 
-#LABLE: Money counter
-Label(root, textvariable=str(money), bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=135, y=20)
+# money
 
-# clicky
-Button(root, text='Click Here!', bg='#CDB79E', font=('helvetica', 24, 'bold'), command=click).place(x=100, y=360)
+Label(root, textvariable = pringles_count, bg = '#F5F5DC', font = ('helvetica', 24, 'bold')).place(x = 50, y = 20)
 
-
-# auto clicker upgrade
-Button(root, text='Auto clicker', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=auto_click).place(x=385, y=75)
-
-
-# strength upgrade
-Button(root, text='Click strength', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=strength_upgrade).place(x=385, y=158)
+# click it
+Label(root, text='↑ Click it! ↑', bg = '#F5F5DC', font = ('helvetica', 24, 'bold')).place(x=90, y=360)
 
 
 # upgrades
-Label(root, text='Upgrades', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=415, y=20)
+Label(root, text='Upgrades', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=415, y=60)
+
+
+# auto clicker upgrade
+Button(root, text='Auto clickers', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=auto_click_upgrade).place(x=385, y=115)
+
+
+# strength upgrade
+Button(root, text='Click strength', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=strength_upgrade).place(x=385, y=198)
 
 
 # cost
-Label(root, text='Cost', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=675, y=20)
+Label(root, text='Cost', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=655, y=60)
 
 
 # autoclicker cost
-Label(root, textvariable=str(clicker_cost), bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=695, y=78)
+Label(root, textvariable=clicker_cost, bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=655, y=115)
 
 
 # strength cost
-Label(root, textvariable=str(strength_cost), bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=695, y=178)
+Label(root, textvariable=strength_cost, bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=655, y=198)
+
+
+# owned
+Label(root, text='Amount', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=750, y=60)
+
+
+# autoclicker owned
+Label(root, textvariable=clickers, bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=750, y=115)
+
+
+# strength owned
+Label(root, textvariable=strength, bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=750, y=198)
 
 
 root.mainloop()
