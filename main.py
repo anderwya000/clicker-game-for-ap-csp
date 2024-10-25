@@ -117,37 +117,47 @@ pringle.bind("<Button-1>", click)
 # --------------- User Interface ---------------
 
 # LABEL: Money (pringles_count)
-Label(root, textvariable=pringles_count, bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=50, y=20)
+Label(root, textvariable=pringles_count, bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=100, y=20)
 
 # LABEL: ↑ Click it! ↑
 Label(root, text='↑ Click it! ↑', bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=90, y=360)
 
+# FRAME: Upgrades
+upgrade_frame = Frame(root, bg='#CF9E54', bd=5, relief=SUNKEN)
+upgrade_frame.place(x=350, y=110)
+upgrade_frame.columnconfigure(0, weight=3)
+upgrade_frame.columnconfigure(1, weight=3)
+upgrade_frame.columnconfigure(2, weight=1)
+upgrade_frame.rowconfigure(0, weight=1)
+upgrade_frame.rowconfigure(1, weight=1)
+upgrade_frame.rowconfigure(2, weight=1)
+
 # LABEL: Upgrades
-Label(root, text='Upgrades', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=415, y=60)
+Label(upgrade_frame, text='Upgrades', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=0, row=0, padx=10, pady=10)
 
 # BUTTON: Auto Clickers Upgrade (auto_click_upgrade)
-Button(root, text='Auto clickers', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=auto_click_upgrade).place(x=385, y=115)
+Button(upgrade_frame, text='Auto clickers', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=auto_click_upgrade).grid(column=0, row=1, padx=10, pady=10)
 
 # BUTTON: Click Strength Upgrade (strength_upgrade)
-Button(root, text='Click strength', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=strength_upgrade).place(x=385, y=198)
+Button(upgrade_frame, text='Click strength', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=strength_upgrade).grid(column=0, row=2, padx=10, pady=10)
 
 # LABEL: Cost
-Label(root, text='Cost', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=600, y=60)
+Label(upgrade_frame, text='Cost', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=1, row=0, padx=10, pady=10)
 
 # LABEL: Autoclicker Cost (clicker_cost)
-Label(root, textvariable=clicker_cost, bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=600, y=115)
+Label(upgrade_frame, textvariable=clicker_cost, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=1, row=1, padx=10, pady=10)
 
 # LABEL: Strength Cost (strength_cost)
-Label(root, textvariable=strength_cost, bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=600, y=198)
+Label(upgrade_frame, textvariable=strength_cost, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=1, row=2, padx=10, pady=10)
 
 # LABEL: Amount Owned
-Label(root, text='Amount', bg='#F5F5DC', font=('helvetica', 22, 'bold')).place(x=750, y=60)
+Label(upgrade_frame, text='Amount', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=2, row=0, padx=10, pady=10)
 
 # LABEL: Clickers Owned (clickers)
-Label(root, textvariable=clickers, bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=750, y=115)
+Label(upgrade_frame, textvariable=clickers, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=2, row=1, padx=10, pady=10)
 
 # LABEL: Click Strength (strength)
-Label(root, textvariable=strength, bg='#F5F5DC', font=('helvetica', 20, 'bold')).place(x=750, y=198)
+Label(upgrade_frame, textvariable=strength, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=2, row=2, padx=10, pady=10)
 
 # --------------- End ---------------
 root.mainloop()
