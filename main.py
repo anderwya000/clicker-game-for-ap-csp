@@ -24,17 +24,16 @@ def click(event):
     """Click event handler. Gives more pringles."""
     global color_index
     money.set(money.get() + strength.get())
-    pringle.itemconfig(normal_pringle, state='normal')
-    pringle.itemconfig(green_pringle, state='hidden')
-    pringle.itemconfig(blue_pringle, state='hidden')
-    pringle.itemconfig(red_pringle, state='hidden')
     if randrange(0,1001) == 1000:
         color_index += 1
-        if color_index > 2:
+        if color_index > 3:
             color_index = 0
         pringle.itemconfig(normal_pringle, state='hidden')
+        pringle.itemconfig(green_pringle, state='hidden')
+        pringle.itemconfig(blue_pringle, state='hidden')
+        pringle.itemconfig(red_pringle, state='hidden')
         pringle.itemconfig(pringle_colors[color_index], state='normal')
-        money.set(money.get() + (1000 * strength.get()))
+        # money.set(money.get() + (1000 * strength.get()))
 
 
 
@@ -110,7 +109,7 @@ picture_file4 = picture_file4.subsample(7)
 red_pringle = pringle.create_image(128, 128, image=picture_file4)
 pringle.itemconfig(red_pringle, state='hidden')
 
-pringle_colors = [green_pringle, blue_pringle, red_pringle]
+pringle_colors = [normal_pringle, green_pringle, blue_pringle, red_pringle]
 pringle.place(x=50, y=75)
 pringle.bind("<Button-1>", click)
 
