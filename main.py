@@ -34,7 +34,7 @@ def click(event):
         pringle.itemconfig(blue_pringle, state='hidden')
         pringle.itemconfig(red_pringle, state='hidden')
         pringle.itemconfig(pringle_colors[color_index], state='normal')
-        # money.set(money.get() + (1000 * strength.get()))
+        money.set(money.get() + (1000 * strength.get()))
 
 # --------------- Wyatt ---------------
 def auto_click_upgrade():
