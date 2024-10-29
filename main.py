@@ -1,18 +1,18 @@
 """https://github.com/anderwya000/clicker-game-for-ap-csp"""
-# -------------------- Imports --------------------
+# --------------- Imports ---------------
 # --------------- Luke ---------------
 from tkinter import *
+import turtle
 from random import randrange
+# --------------- Functions ---------------
 
-# --------------------- Functions --------------------
-
-# ------------ Wyatt ------------
+# --------------- Wyatt ---------------
 def run_clicks():
     """Calculate the autoclicker gain."""
     money.set(money.get() + (strength.get() * clickers.get()))
     root.after(1000, run_clicks)
 
-
+# --------------- Wyatt ---------------
 def calc_numbers():
     """Calculate the number to display as pringles."""
     if money.get() > 999999:
@@ -21,17 +21,24 @@ def calc_numbers():
         pringles_count.set(f'{money.get()} pringles')
     root.after(10, calc_numbers)
 
-
+# --------------- Wyatt ---------------
 def click(event):
     """Click event handler. Gives more pringles."""
     global color_index
+    draw.forward(1)
     money.set(money.get() + strength.get())
-    change_pringle_colors()
-    if randrange(0,1001) == 1000:
-      pringle.itemconfig(special_pringle, state='normal')
-      money.set(money.get() + (1000 * strength.get()))
+    if randrange(0,251) == 250:
+        color_index += 1
+        if color_index > 3:
+            color_index = 0
+        pringle.itemconfig(normal_pringle, state='hidden')
+        pringle.itemconfig(green_pringle, state='hidden')
+        pringle.itemconfig(blue_pringle, state='hidden')
+        pringle.itemconfig(red_pringle, state='hidden')
+        pringle.itemconfig(pringle_colors[color_index], state='normal')
+        # money.set(money.get() + (1000 * strength.get()))
 
-
+# --------------- Wyatt ---------------
 def auto_click_upgrade():
     """Check if the autoclicker upgrade is available, then buy it."""
     if money.get() >= clicker_cost.get():
@@ -41,34 +48,7 @@ def auto_click_upgrade():
         clicker_cost.set(new_price)
         clickers.set(clickers.get() + 1)
 
-# ------------ Luke ------------
-def change_pringle_colors():
-   if 0 <= strength.get() < 10:
-      pringle.itemconfig(normal_pringle, state='normal')
-      pringle.itemconfig(green_pringle, state='hidden')
-      pringle.itemconfig(blue_pringle, state='hidden')
-      pringle.itemconfig(red_pringle, state='hidden')
-      pringle.itemconfig(special_pringle, state='hidden')
-   if 10 <= strength.get() < 20:
-      pringle.itemconfig(normal_pringle, state='hidden')
-      pringle.itemconfig(green_pringle, state='normal')
-      pringle.itemconfig(blue_pringle, state='hidden')
-      pringle.itemconfig(red_pringle, state='hidden')
-      pringle.itemconfig(special_pringle, state='hidden')
-   if 10 <= strength.get() < 30:
-      pringle.itemconfig(normal_pringle, state='hidden')
-      pringle.itemconfig(green_pringle, state='hidden')
-      pringle.itemconfig(blue_pringle, state='normal')
-      pringle.itemconfig(red_pringle, state='hidden')
-      pringle.itemconfig(special_pringle, state='hidden')
-   if 10 <= strength.get() < 40:
-      pringle.itemconfig(normal_pringle, state='hidden')
-      pringle.itemconfig(green_pringle, state='hidden')
-      pringle.itemconfig(blue_pringle, state='hidden')
-      pringle.itemconfig(red_pringle, state='normal')
-      pringle.itemconfig(special_pringle, state='hidden')
-      
-      
+# --------------- Luke ---------------
 def strength_upgrade():
     """Check if the strength upgrade is available, then buy it."""
     if money.get() >= strength_cost.get():
@@ -77,18 +57,15 @@ def strength_upgrade():
         new_price = round(price * 1.6)
         strength_cost.set(new_price)
         strength.set(strength.get() + 1)
-    change_pringle_colors()
 
-# ------------ Wyatt ------------
+# --------------- Luke ---------------
 def convert_to_e(number):
     """Convert a number to scientific notation."""
     return '{:.2e}'.format(number)
 
-# --------------------- Variables --------------------
 
-# ------------ Wyatt ------------
 root = Tk()
-
+# --------------- Wyatt ---------------
 money = IntVar()
 money.set(0)
 clicker_cost = IntVar()
@@ -102,7 +79,9 @@ clickers.set(0)
 pringles_count = StringVar()
 color_index = 0
 
-# ------------ Luke ------------
+
+
+# --------------- Luke ---------------
 root.geometry('880x460')
 root.configure(background='#F5F5DC')
 root.title('Pringle Clicker')
@@ -110,46 +89,54 @@ root.title('Pringle Clicker')
 run_clicks()
 calc_numbers()
 
-#---------------- Pringle Item Config ----------------
+# --------------- Wyatt ---------------
+turtlecanvas = Canvas(root, width = 880, height = 460, bg='#F5F5DC', highlightthickness=0)
+turtlecanvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10, columnspan=10)
+draw = turtle.RawTurtle(turtlecanvas)
+turtlescreen = turtle.TurtleScreen(turtlecanvas)
 
-# ------------ Luke ------------
+draw.pendown()
+
+turtlescreen.bgcolor("#F5F5DC")
+
+# --------------- Luke ---------------
 pringle = Canvas(root, height=256, width=256, bg='#F5F5DC', highlightthickness=0)
-picture_file1 = PhotoImage(file='normal_pringle.gif') # Picture made by Wyatt
+picture_file1 = PhotoImage(file='normal_pringle.gif')
 picture_file1 = picture_file1.zoom(3)
 picture_file1 = picture_file1.subsample(7)
 normal_pringle = pringle.create_image(128, 128, image=picture_file1)
 pringle.itemconfig(normal_pringle, state='normal')
-
-picture_file2 = PhotoImage(file='green_pringle.gif') # Picture made by Wyatt
+# --------------- Wyatt ---------------
+picture_file2 = PhotoImage(file='green_pringle.gif')
 picture_file2 = picture_file2.zoom(3)
 picture_file2 = picture_file2.subsample(7)
 green_pringle = pringle.create_image(128, 128, image=picture_file2)
 pringle.itemconfig(green_pringle, state='hidden')
 
-picture_file3 = PhotoImage(file='blue_pringle.gif') # Picture made by Wyatt
+picture_file3 = PhotoImage(file='blue_pringle.gif')
 picture_file3 = picture_file3.zoom(3)
 picture_file3 = picture_file3.subsample(7)
 blue_pringle = pringle.create_image(128, 128, image=picture_file3)
 pringle.itemconfig(blue_pringle, state='hidden')
 
-picture_file4 = PhotoImage(file='red_pringle.gif') # Picture made by Wyatt
+picture_file4 = PhotoImage(file='red_pringle.gif')
 picture_file4 = picture_file4.zoom(3)
 picture_file4 = picture_file4.subsample(7)
 red_pringle = pringle.create_image(128, 128, image=picture_file4)
 pringle.itemconfig(red_pringle, state='hidden')
-
-picture_file5 = PhotoImage(file='special_pringle.gif')
-picture_file5 = picture_file5.zoom(3)
-picture_file5 = picture_file5.subsample(7)
-special_pringle = pringle.create_image(128, 128, image=picture_file5)
-pringle.itemconfig(special_pringle, state='hidden')
-
+# --------------- Wyatt ---------------
+pringle_colors = [normal_pringle, green_pringle, blue_pringle, red_pringle]
 pringle.place(x=50, y=75)
 pringle.bind("<Button-1>", click)
 
-# -------------------- User Interface -------------------
+# --------------- User Interface ---------------
+# --------------- Luke ---------------
+# LABEL: Money (pringles_count)
+Label(root, textvariable=pringles_count, bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=100, y=20)
 
-# ------------ Wyatt ------------
+# LABEL: ↑ Click it! ↑
+Label(root, text='↑ Click it! ↑', bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=90, y=360)
+# --------------- Wyatt ---------------
 # FRAME: Upgrades
 upgrade_frame = Frame(root, bg='#CF9E54', bd=5, relief=SUNKEN)
 upgrade_frame.place(x=350, y=110)
@@ -159,15 +146,7 @@ upgrade_frame.columnconfigure(2, weight=1)
 upgrade_frame.rowconfigure(0, weight=1)
 upgrade_frame.rowconfigure(1, weight=1)
 upgrade_frame.rowconfigure(2, weight=1)
-
-# ------------ Luke -----------
-
-# LABEL: Money (pringles_count)
-Label(root, textvariable=pringles_count, bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=100, y=20)
-
-# LABEL: ↑ Click it! ↑
-Label(root, text='↑ Click it! ↑', bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=90, y=360)
-
+# --------------- Luke ---------------
 # LABEL: Upgrades
 Label(upgrade_frame, text='Upgrades', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=0, row=0, padx=10, pady=10)
 
@@ -179,13 +158,13 @@ Button(upgrade_frame, text='Click strength', bg='#CDB79E', font=('helvetica', 20
 
 # LABEL: Cost
 Label(upgrade_frame, text='Cost', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=1, row=0, padx=10, pady=10)
-
+# --------------- Wyatt, Luke ---------------
 # LABEL: Autoclicker Cost (clicker_cost)
 Label(upgrade_frame, textvariable=clicker_cost, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=1, row=1, padx=10, pady=10)
 
 # LABEL: Strength Cost (strength_cost)
 Label(upgrade_frame, textvariable=strength_cost, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=1, row=2, padx=10, pady=10)
-
+# --------------- Luke ---------------
 # LABEL: Amount Owned
 Label(upgrade_frame, text='Amount', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=2, row=0, padx=10, pady=10)
 
@@ -195,5 +174,5 @@ Label(upgrade_frame, textvariable=clickers, bg='#CF9E54', font=('helvetica', 20,
 # LABEL: Click Strength (strength)
 Label(upgrade_frame, textvariable=strength, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=2, row=2, padx=10, pady=10)
 
-# ---------------- End ----------------
+# --------------- End ---------------
 root.mainloop()
