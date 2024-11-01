@@ -66,6 +66,7 @@ def convert_to_e(number):
 
 root = Tk()
 # --------------- Wyatt ---------------
+# Declare tkinter variables for display
 money = IntVar()
 money.set(0)
 clicker_cost = IntVar()
@@ -85,21 +86,12 @@ color_index = 0
 root.geometry('880x460')
 root.configure(background='#F5F5DC')
 root.title('Pringle Clicker')
-
+# Start looping functions.
 run_clicks()
 calc_numbers()
 
-# --------------- Wyatt ---------------
-turtlecanvas = Canvas(root, width = 880, height = 460, bg='#F5F5DC', highlightthickness=0)
-turtlecanvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10, columnspan=10)
-draw = turtle.RawTurtle(turtlecanvas)
-turtlescreen = turtle.TurtleScreen(turtlecanvas)
-
-draw.pendown()
-
-turtlescreen.bgcolor("#F5F5DC")
-
 # --------------- Luke ---------------
+# Set up pringle image
 pringle = Canvas(root, height=256, width=256, bg='#F5F5DC', highlightthickness=0)
 picture_file1 = PhotoImage(file='normal_pringle.gif')
 picture_file1 = picture_file1.zoom(3)
@@ -107,24 +99,26 @@ picture_file1 = picture_file1.subsample(7)
 normal_pringle = pringle.create_image(128, 128, image=picture_file1)
 pringle.itemconfig(normal_pringle, state='normal')
 # --------------- Wyatt ---------------
+# Green pringle
 picture_file2 = PhotoImage(file='green_pringle.gif')
 picture_file2 = picture_file2.zoom(3)
 picture_file2 = picture_file2.subsample(7)
 green_pringle = pringle.create_image(128, 128, image=picture_file2)
 pringle.itemconfig(green_pringle, state='hidden')
-
+# Blue pringle
 picture_file3 = PhotoImage(file='blue_pringle.gif')
 picture_file3 = picture_file3.zoom(3)
 picture_file3 = picture_file3.subsample(7)
 blue_pringle = pringle.create_image(128, 128, image=picture_file3)
 pringle.itemconfig(blue_pringle, state='hidden')
-
+# Red pringle
 picture_file4 = PhotoImage(file='red_pringle.gif')
 picture_file4 = picture_file4.zoom(3)
 picture_file4 = picture_file4.subsample(7)
 red_pringle = pringle.create_image(128, 128, image=picture_file4)
 pringle.itemconfig(red_pringle, state='hidden')
 # --------------- Wyatt ---------------
+# Pringle colors list and canvas that pringle images reside on
 pringle_colors = [normal_pringle, green_pringle, blue_pringle, red_pringle]
 pringle.place(x=50, y=75)
 pringle.bind("<Button-1>", click)
@@ -138,6 +132,7 @@ Label(root, textvariable=pringles_count, bg='#F5F5DC', font=('helvetica', 24, 'b
 Label(root, text='↑ Click it! ↑', bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=90, y=360)
 # --------------- Wyatt ---------------
 # FRAME: Upgrades
+# Configure frame that upgrades are in. 
 upgrade_frame = Frame(root, bg='#CF9E54', bd=5, relief=SUNKEN)
 upgrade_frame.place(x=350, y=110)
 upgrade_frame.columnconfigure(0, weight=3)
