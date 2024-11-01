@@ -25,7 +25,6 @@ def calc_numbers():
 def click(event):
     """Click event handler. Gives more pringles."""
     global color_index
-    draw.forward(1)
     money.set(money.get() + strength.get())
     if randrange(0,251) == 250:
         color_index += 1
@@ -58,7 +57,7 @@ def strength_upgrade():
         strength_cost.set(new_price)
         strength.set(strength.get() + 1)
 
-# --------------- Luke ---------------
+
 def convert_to_e(number):
     """Convert a number to scientific notation."""
     return '{:.2e}'.format(number)
