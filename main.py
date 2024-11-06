@@ -100,8 +100,8 @@ def strength_upgrade():
 
 # ---------- Luke ----------
 # Start to move Julius around the screen
+turn = 0
 def calc_julius():
-    turn = 0
     julius.forward(3)
     # Check if the turtle hits the right boundary if it does, turn right
     if julius.xcor() > (370 - margin):
