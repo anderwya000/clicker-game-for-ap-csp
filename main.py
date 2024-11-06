@@ -59,8 +59,8 @@ def click_julius(event):
    x_click_turtle = x_click - turtle_canvas_width / 2  # Center the x-coordinate
    y_click_turtle = (turtle_canvas_height / 2) - y_click  # Flip y-coordinate
    # Gets Julius' position
-   julius_x = Julius.xcor()
-   julius_y = Julius.ycor()
+   julius_x = julius.xcor()
+   julius_y = julius.ycor()
    # Gets the boundary box for Julius
    julius_left = julius_x - click_radius
    julius_right = julius_x + click_radius
@@ -68,7 +68,6 @@ def click_julius(event):
    julius_bottom = julius_y - click_radius
    # Checks if the click is inside the bounding box of Julius
    if julius_left <= x_click_turtle <= julius_right and julius_bottom <= y_click_turtle <= julius_top:
-     print("HIT")
      money.set(money.get() + (strength.get() * 10)) # Gives 10x the money that the big pringle does
 
 
@@ -97,6 +96,34 @@ def strength_upgrade():
      # Gives 1 more strength
      strength.set(strength.get() + 1)
 
+# --------------- Julius movement -------------
+
+# ---------- Luke ----------
+# Start to move Julius around the screen
+def calc_julius():
+    turn = 0
+    julius.forward(3)
+    # Check if the turtle hits the right boundary if it does, turn right
+    if julius.xcor() > (370 - margin):
+        if turn == 0: # Sets turn back to zero
+            julius.back(margin)
+            julius.right(90)
+    elif julius.ycor() < (margin - 280):
+        if turn == 0:
+            julius.back(margin)
+            julius.right(90)
+            turn = 1  # Sets turn to 1 after turning to ensure that Julius doesn't pass multiple boundary checks early
+    elif julius.xcor() < (margin - 460):
+        if turn == 1:
+            julius.back(margin)
+            julius.right(90)
+    elif julius.ycor() > (355 - margin):
+        if turn == 1:
+            julius.back(margin)
+            julius.right(90)
+            turn = 0  # Set turn back to 0
+    root.after(1, calc_julius)
+
 
 # --------------- Variables ---------------
 
@@ -115,10 +142,10 @@ clickers = IntVar()
 clickers.set(0)
 pringles_count = StringVar()
 color_index = 0
+# ---------- Luke ----------
 # Turtle variables
-turn = 0
 margin = 25 # Sets the distance between the canvas edge and Julius
-click_radius = 40  # Sets the click radius around Julius
+click_radius = 20  # Sets the click radius around Julius
 
 
 # ---------- Luke ----------
@@ -145,11 +172,11 @@ turtle_screen = turtle.TurtleScreen(turtle_canvas)
 turtle_screen.bgcolor("#F5F5DC")  # Matches the background color of the Tkinter window
 
 # Initialize Turtle (Julius)
-Julius = turtle.RawTurtle(turtle_screen)
-Julius.ht()
-Julius.speed(0)
-Julius.penup()
-Julius.goto(margin - turtle_canvas.winfo_width() / 2, -(margin - turtle_canvas.winfo_height() / 2)) # Formats turtle start to fit tkinter canvas coords
+julius = turtle.RawTurtle(turtle_screen)
+julius.ht()
+julius.speed(0)
+julius.penup()
+julius.goto(margin - turtle_canvas.winfo_width() / 2, -(margin - turtle_canvas.winfo_height() / 2)) # Formats turtle start to fit tkinter canvas coords
 
 # Sets Up Julius' image
 image_file = 'Mr.Julius_Pringle.gif'
@@ -159,12 +186,12 @@ try:
 except Exception as e:
    print(f"Error registering the image as a shape: {e}")
 # Sets the shape of the RawTurtle to the registered image
-Julius.shape(image_file)
+julius.shape(image_file)
 
-Julius.st()
+julius.st()
 
 turtle_canvas.bind("<Button-1>", click_julius) # Binds the click_Julius to Julius
-
+calc_julius()
 
 # --------------- Picture File Set Ups ---------------
 
@@ -248,33 +275,6 @@ Label(upgrade_frame, textvariable=clickers, bg='#CF9E54', font=('helvetica', 20,
 
 # LABEL: Click Strength (strength)
 Label(upgrade_frame, textvariable=strength, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=2, row=2, padx=10, pady=10)
-
-
-# --------------- Julius movement -------------
-
-# ---------- Luke ----------
-# Start to move Julius around the screen
-while True:
-   Julius.forward(3)
-   # Check if the turtle hits the right boundary if it does, turn right
-   if (Julius.xcor() > (370 - margin)):
-     if (turn == 0): # Sets turn back to zero 
-       Julius.back(margin)
-       Julius.right(90)
-   elif (Julius.ycor() < (margin - 280)):
-     if (turn == 0):
-       Julius.back(margin)
-       Julius.right(90)
-       turn = 1  # Sets turn to 1 after turning to ensure that Julius doesn't pass multiple boundary checks early
-   elif (Julius.xcor() < (margin - 460)):
-     if (turn == 1):
-       Julius.back(margin)
-       Julius.right(90)
-   elif (Julius.ycor() > (355 - margin)):
-     if (turn == 1):
-       Julius.back(margin)
-       Julius.right(90)
-       turn = 0  # Set turn back to 0
 
 
 # --------------- End ---------------
