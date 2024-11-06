@@ -5,6 +5,7 @@ from tkinter import *
 import turtle
 from random import randrange
 
+
 # --------------- Functions ---------------
 
 # ----------- Wyatt ----------
@@ -16,7 +17,7 @@ def run_clicks():
 
 def calc_numbers():
     """Calculate the number to display as pringles."""
-    if money.get() > 999999:
+    if money.get() > 999999: # Converts to sci notation when money count reaches 1 Million
         pringles_count.set(f'{convert_to_e(money.get())} pringles')
     else:
         pringles_count.set(f'{money.get()} pringles')
@@ -37,31 +38,63 @@ def click(event):
         color_index += 1
         if color_index > 3:
             color_index = 0
+        # Hides all pringles and shows the new color
         pringle.itemconfig(normal_pringle, state='hidden')
         pringle.itemconfig(green_pringle, state='hidden')
         pringle.itemconfig(blue_pringle, state='hidden')
         pringle.itemconfig(red_pringle, state='hidden')
-        pringle.itemconfig(pringle_colors[color_index], state='normal')
-        money.set(money.get() + (100 * strength.get())) # Gives extra pringles upon a color change
+        pringle.itemconfig(pringle_colors[color_index], state='normal') # Shows the appropriate colored pringle from the list
+        money.set(money.get() + (strength.get() * 100)) # Gives 100x extra pringles upon a color change
 
 # ---------- Luke ----------
+def click_julius(event):
+   """Julius' click event handler. Gives more Pringles"""
+   # Gets the position relative to the canvas
+   x_click = event.x
+   y_click = event.y
+   # Converts canvas click coordinates to turtle screen coordinates
+   turtle_canvas_width = turtle_canvas.winfo_width()
+   turtle_canvas_height = turtle_canvas.winfo_height()
+   # Adjusts click position to match Turtle screen coordinates
+   x_click_turtle = x_click - turtle_canvas_width / 2  # Center the x-coordinate
+   y_click_turtle = (turtle_canvas_height / 2) - y_click  # Flip y-coordinate
+   # Gets Julius' position
+   julius_x = Julius.xcor()
+   julius_y = Julius.ycor()
+   # Gets the boundary box for Julius
+   julius_left = julius_x - click_radius
+   julius_right = julius_x + click_radius
+   julius_top = julius_y + click_radius
+   julius_bottom = julius_y - click_radius
+   # Checks if the click is inside the bounding box of Julius
+   if julius_left <= x_click_turtle <= julius_right and julius_bottom <= y_click_turtle <= julius_top:
+     print("HIT")
+     money.set(money.get() + (strength.get() * 10)) # Gives 10x the money that the big pringle does
+
+
 def auto_click_upgrade():
    """Check if the autoclicker upgrade is available, then buy it."""
    if money.get() >= clicker_cost.get():
+     # Gets the price of the auto clicker and subtracts it from the total money
      price = clicker_cost.get()
      money.set(money.get() - price)
+     # Multiplies the price of auto clicker by 1.6x
      new_price = round(price * 1.6)
      clicker_cost.set(new_price)
+     # Gives 1 auto clicker
      clickers.set(clickers.get() + 1)
 
 
 def strength_upgrade():
    """Check if the strength upgrade is available, then buy it."""
    if money.get() >= strength_cost.get():
+     # Gets the price of the strength and subtracts it from the total money
      price = strength_cost.get()
      money.set(money.get() - price)
+     # Multiplies the price of auto clicker by 1.6x
      new_price = round(price * 1.6)
      strength_cost.set(new_price)
+     # Gives 1 more strength
      strength.set(strength.get() + 1)
 
 
@@ -83,16 +116,19 @@ clickers.set(0)
 pringles_count = StringVar()
 color_index = 0
 # Turtle variables
-margin = 25
 turn = 0
+margin = 25 # Sets the distance between the canvas edge and Julius
+click_radius = 40  # Sets the click radius around Julius
 
-# --------------- Luke ---------------
+
+# ---------- Luke ----------
+
 # Cofiguration for the Tkinter canvas
 root.geometry('880x660')
 root.configure(background='#F5F5DC')
 root.title('Pringle Clicker')
 
-# Start looping functions.
+# Starts looping functions.
 run_clicks()
 calc_numbers()
 
@@ -101,28 +137,36 @@ calc_numbers()
 
 # --------- Luke ----------
 # Initialize Turtle Screen
-turtle_canvas = Canvas(root, width=880, height=660, bg='#F5F5DC', highlightthickness=0)
+turtle_canvas = Canvas(root, width=880, height=660, bg='#F5F5DC',)
 turtle_canvas.place(x=0, y=0)  # Place the canvas inside the window
 
-# Create the turtle screen and bind it to the tkinter canvas
+# Creates the Turtle screen and binds it to the Tkinter canvas
 turtle_screen = turtle.TurtleScreen(turtle_canvas)
-turtle_screen.bgcolor("#F5F5DC")  # Match the background color of the main window
+turtle_screen.bgcolor("#F5F5DC")  # Matches the background color of the Tkinter window
 
 # Initialize Turtle (Julius)
 Julius = turtle.RawTurtle(turtle_screen)
-Julius.shape("turtle")
+Julius.ht()
 Julius.speed(0)
 Julius.penup()
 Julius.goto(margin - turtle_canvas.winfo_width() / 2, -(margin - turtle_canvas.winfo_height() / 2)) # Formats turtle start to fit tkinter canvas coords
 
-"""# Move Julius when clicked on the canvas
-def move_julius(event):
-    Julius.goto(event.x - canvas.winfo_width() / 2, -(event.y - canvas.winfo_height() / 2))  # Adjusting coordinates for canvas size
+# Sets Up Julius' image
+image_file = 'Mr.Julius_Pringle.gif'
+# Checks if the image exists before adding it
+try:
+   turtle_screen.addshape(image_file)  # Register the .gif shape
+except Exception as e:
+   print(f"Error registering the image as a shape: {e}")
+# Sets the shape of the RawTurtle to the registered image
+Julius.shape(image_file)
 
-canvas.bind("<Button-1>", move_julius)"""
+Julius.st()
+
+turtle_canvas.bind("<Button-1>", click_julius) # Binds the click_Julius to Julius
 
 
-# --------------- Pringle Setup ---------------
+# --------------- Picture File Set Ups ---------------
 
 # ---------- Luke ----------
 # Set up pringle image
@@ -154,7 +198,7 @@ pringle.itemconfig(red_pringle, state='hidden')
 # ---------- Wyatt ----------
 pringle_colors = [normal_pringle, green_pringle, blue_pringle, red_pringle] # Creates the pringles list of colors
 pringle.place(x=50, y=130) # Places the pringle on the screen
-pringle.bind("<Button-1>", click) # Binds the pringle to clicking
+pringle.bind("<Button-1>", click) # Binds the pringle to the click function
 
 
 # --------------- User Interface ---------------
@@ -211,32 +255,28 @@ Label(upgrade_frame, textvariable=strength, bg='#CF9E54', font=('helvetica', 20,
 # ---------- Luke ----------
 # Start to move Julius around the screen
 while True:
-   Julius.forward(5)
-   # Check if the turtle hits the right boundary, then turn right
+   Julius.forward(3)
+   # Check if the turtle hits the right boundary if it does, turn right
    if (Julius.xcor() > (370 - margin)):
-     if (turn == 0):
+     if (turn == 0): # Sets turn back to zero 
        Julius.back(margin)
        Julius.right(90)
-       print("right 1")
    elif (Julius.ycor() < (margin - 280)):
      if (turn == 0):
        Julius.back(margin)
        Julius.right(90)
-       print("right 2")
-       turn = 1  # Set turn to 1 after turning to ensure correct logic for the next boundary check
-   # Check if the turtle hits the left boundary, then turn right
+       turn = 1  # Sets turn to 1 after turning to ensure that Julius doesn't pass multiple boundary checks early
    elif (Julius.xcor() < (margin - 460)):
      if (turn == 1):
        Julius.back(margin)
        Julius.right(90)
-       print("right 3")
-    # Check if the turtle hits the top boundary, then turn right
    elif (Julius.ycor() > (355 - margin)):
      if (turn == 1):
        Julius.back(margin)
        Julius.right(90)
-       print("right 4")
        turn = 0  # Set turn back to 0
+
 
 # --------------- End ---------------
 root.mainloop()
+
