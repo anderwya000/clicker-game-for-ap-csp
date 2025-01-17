@@ -1,7 +1,9 @@
 """https://github.com/anderwya000/clicker-game-for-ap-csp"""
 # --------------- Imports ---------------
+
 # ---------- Luke ----------
-from tkinter import *
+import tkinter as tk
+from tkinter import PhotoImage, IntVar, StringVar, Canvas, SUNKEN
 import turtle
 from random import randrange
 
@@ -102,9 +104,10 @@ def strength_upgrade():
 # Start to move Julius around the screen
 turn = 0
 def calc_julius():
+    global turn
     julius.forward(3)
     # Check if the turtle hits the right boundary if it does, turn right
-    if julius.xcor() > (370 - margin):
+    if julius.xcor() > (460 - margin):
         if turn == 0: # Sets turn back to zero
             julius.back(margin)
             julius.right(90)
@@ -112,7 +115,7 @@ def calc_julius():
         if turn == 0:
             julius.back(margin)
             julius.right(90)
-            turn = 1  # Sets turn to 1 after turning to ensure that Julius doesn't pass multiple boundary checks early
+            turn = 1  # Sets turn to 1 after turning to ensure that Julius doesn't pass multiple boundary checks
     elif julius.xcor() < (margin - 460):
         if turn == 1:
             julius.back(margin)
@@ -127,8 +130,7 @@ def calc_julius():
 
 # --------------- Variables ---------------
 
-# ---------- Wyatt ----------
-root = Tk() # Creates the main tkinter window for display
+root = tk.Tk() # Creates the main tkinter window for display
 # Declare tkinter variables for display
 money = IntVar()
 money.set(0)
@@ -196,8 +198,7 @@ calc_julius()
 # --------------- Picture File Set Ups ---------------
 
 # ---------- Luke ----------
-# Set up pringle image
-pringle = Canvas(root, height=256, width=256, bg='#F5F5DC', highlightthickness=0)
+pringle = tk.Canvas(root, height=256, width=256, bg='#F5F5DC', highlightthickness=0)
 picture_file1 = PhotoImage(file='normal_pringle.gif')
 picture_file1 = picture_file1.zoom(3)
 picture_file1 = picture_file1.subsample(7)
@@ -231,15 +232,12 @@ pringle.bind("<Button-1>", click) # Binds the pringle to the click function
 # --------------- User Interface ---------------
 
 # ---------- Luke ----------
-# LABEL: Money (pringles_count)
-Label(root, textvariable=pringles_count, bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=100, y=80)
+tk.Label(root, textvariable=pringles_count, bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=100, y=80)
 
-# LABEL: ↑ Click it! ↑
-Label(root, text='↑ Click it! ↑', bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=90, y=420)
+tk.Label(root, text='↑ Click it! ↑', bg='#F5F5DC', font=('helvetica', 24, 'bold')).place(x=90, y=420)
 # ---------- Wyatt ----------
 # FRAME: Upgrades
-# Configure the frame that the upgrades are in. 
-upgrade_frame = Frame(root, bg='#CF9E54', bd=5, relief=SUNKEN)
+upgrade_frame = tk.Frame(root, bg='#CF9E54', bd=5, relief=SUNKEN)
 upgrade_frame.place(x=350, y=170)
 upgrade_frame.columnconfigure(0, weight=3)
 upgrade_frame.columnconfigure(1, weight=3)
@@ -249,32 +247,23 @@ upgrade_frame.rowconfigure(1, weight=1)
 upgrade_frame.rowconfigure(2, weight=1)
 
 # ---------- Luke ----------
-# LABEL: Upgrades
-Label(upgrade_frame, text='Upgrades', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=0, row=0, padx=10, pady=10)
+tk.Label(upgrade_frame, text='Upgrades', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=0, row=0, padx=10, pady=10)
 
-# BUTTON: Auto Clickers Upgrade (auto_click_upgrade)
-Button(upgrade_frame, text='Auto clickers', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=auto_click_upgrade).grid(column=0, row=1, padx=10, pady=10)
+tk.Button(upgrade_frame, text='Auto clickers', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=auto_click_upgrade).grid(column=0, row=1, padx=10, pady=10)
 
-# BUTTON: Click Strength Upgrade (strength_upgrade)
-Button(upgrade_frame, text='Click strength', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=strength_upgrade).grid(column=0, row=2, padx=10, pady=10)
+tk.Button(upgrade_frame, text='Click strength', bg='#CDB79E', font=('helvetica', 20, 'bold'), command=strength_upgrade).grid(column=0, row=2, padx=10, pady=10)
 
-# LABEL: Cost
-Label(upgrade_frame, text='Cost', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=1, row=0, padx=10, pady=10)
+tk.Label(upgrade_frame, text='Cost', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=1, row=0, padx=10, pady=10)
 # ---------- Wyatt, Luke ----------
-# LABEL: Autoclicker Cost (clicker_cost)
-Label(upgrade_frame, textvariable=clicker_cost, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=1, row=1, padx=10, pady=10)
+tk.Label(upgrade_frame, textvariable=clicker_cost, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=1, row=1, padx=10, pady=10)
 
-# LABEL: Strength Cost (strength_cost)
-Label(upgrade_frame, textvariable=strength_cost, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=1, row=2, padx=10, pady=10)
+tk.Label(upgrade_frame, textvariable=strength_cost, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=1, row=2, padx=10, pady=10)
 # ---------- Luke ----------
-# LABEL: Amount Owned
-Label(upgrade_frame, text='Amount', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=2, row=0, padx=10, pady=10)
+tk.Label(upgrade_frame, text='Amount', bg='#CF9E54', font=('helvetica', 22, 'bold')).grid(column=2, row=0, padx=10, pady=10)
 
-# LABEL: Clickers Owned (clickers)
-Label(upgrade_frame, textvariable=clickers, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=2, row=1, padx=10, pady=10)
+tk.Label(upgrade_frame, textvariable=clickers, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=2, row=1, padx=10, pady=10)
 
-# LABEL: Click Strength (strength)
-Label(upgrade_frame, textvariable=strength, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=2, row=2, padx=10, pady=10)
+tk.Label(upgrade_frame, textvariable=strength, bg='#CF9E54', font=('helvetica', 20, 'bold')).grid(column=2, row=2, padx=10, pady=10)
 
 
 # --------------- End ---------------
